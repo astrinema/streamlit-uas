@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from pandas.io.formats import style
 import numpy as np
 import streamlit as st
 import pandas as pd
@@ -26,10 +27,46 @@ def app():
             output_kecil=pd.DataFrame(df_terkecil.head(1)).reset_index()
             output_nol=pd.DataFrame(data_nol.head(1)).reset_index()
 
-
-            st.subheader(f'Produksi Terbesar Pada Tahun {input_tahun}')
             jumlah_terbesar = output_data['produksi'].iloc[0]
+            jumlah_terkecil = output_kecil['produksi'].iloc[0]
+            jumlah_nol = output_nol['produksi'].iloc[0]
+
             get_kode = output_data['kode_negara'].iloc[0]
+            get_kode_nol = output_nol['kode_negara'].iloc[0]
+            get_kode_kecil = output_kecil['kode_negara'].iloc[0]
+
+
+            # median mean
+            df_data = pd.DataFrame(tahun_data['produksi'])
+            data_mean = df_data.mean()
+            data_median = df_data.median()
+
+            mean_median = pd.DataFrame({
+                'mean': data_mean,
+                'median': data_median
+            })
+
+            st.subheader(f'Median Mean Data pada tahun {input_tahun}')
+            st.table(mean_median)
+
+            recap_data = pd.DataFrame({
+                'kode_negara': (get_kode, get_kode_kecil, get_kode_nol),
+                'produksi': (jumlah_terbesar, jumlah_terkecil, jumlah_nol)
+            })
+
+            recap_data.index = recap_data['kode_negara']
+            
+            fig = plt.figure(figsize = (16, 8))
+            plt.title('Data Produksi Minyak Mentah')
+            plt.plot(recap_data['produksi'])
+            plt.xlabel('Kode Negara', fontsize=18)
+            plt.ylabel('Produksi', fontsize =18)
+
+            st.subheader(f'Grafik Terbesar-Terkecil Produksi Minyak Mentah Negara tahun {input_tahun}')
+            st.pyplot(fig)
+            
+            
+            st.subheader(f'Produksi Terbesar Pada Tahun {input_tahun}')
             json_kode = info_json[info_json['alpha-3']== get_kode]
 
             if(json_kode.size>0):
@@ -56,8 +93,6 @@ def app():
 
             
             st.subheader(f"Produksi Terkecil Pada Tahun {input_tahun}")
-            jumlah_terkecil = output_kecil['produksi'].iloc[0]
-            get_kode_kecil = output_kecil['kode_negara'].iloc[0]
             json_kode = info_json[info_json['alpha-3']== get_kode_kecil]
             if(json_kode.size>0):
                 nama_negara = json_kode['name'].iloc[0]
@@ -82,8 +117,6 @@ def app():
 
 
             st.subheader(f"Produksi Nol Pada Tahun {input_tahun}")
-            jumlah_nol = output_nol['produksi'].iloc[0]
-            get_kode_nol = output_nol['kode_negara'].iloc[0]
             json_kode = info_json[info_json['alpha-3']==get_kode_nol]
             if(json_kode.size>0):
                 nama_negara = json_kode['name'].iloc[0]
