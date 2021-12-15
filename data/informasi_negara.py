@@ -3,7 +3,18 @@ import numpy as np
 import streamlit as st
 import pandas as pd
 
-
+def cetak_data(nama_negara,kode_negara,region,sub_region,input_tahun,jumlah_nol):
+    col_kiri, col_kanan = st.columns([1,3])
+    col_kiri.markdown('Nama Negara')
+    col_kanan.markdown(f'=  {nama_negara}')
+    col_kiri.markdown('kode Negara')
+    col_kanan.markdown(f'=  {kode_negara}')
+    col_kiri.markdown('Region')
+    col_kanan.markdown(f'=  {region}')
+    col_kiri.markdown('Subregion')
+    col_kanan.markdown(f'=  {sub_region}')
+    st.markdown(f'Jumlah produksi terbesar tahun {input_tahun} = **{jumlah_nol}**')
+    st.markdown('**Produksi Keseluruhan Tahun**')
 
 def app():
     nav=st.sidebar.container()
@@ -37,8 +48,6 @@ def app():
             df_terbesar = pd.DataFrame()
             df_terbesar = data_terbesar[mask]
             df_terbesar = df_terbesar.reset_index()
-            
-            col1, col2 = st.columns(2)
             
             tabel_terbesar = pd.DataFrame()
             tabel_nol = pd.DataFrame()
@@ -152,6 +161,7 @@ def app():
                 st.subheader(f'Grafik Terbesar-Terkecil Produksi Minyak Mentah Negara tahun {input_tahun}')
                 st.pyplot(fig)
             
+            # ---
             if info:
                 st.subheader(f'Produksi Terbesar Pada Tahun {input_tahun}')
                 json_kode = info_json[info_json['alpha-3']== get_kode]
@@ -170,15 +180,17 @@ def app():
 
                 negara_tahun.index = np.arange(1, len(negara_tahun)+1)
 
-                st.markdown(f'Nama Negara = {nama_negara}')
-                st.markdown(f'kode Negara = {kode_negara}')
-                st.markdown(f'Region = {region}')
-                st.markdown(f'Subregion = {sub_region}')
-                st.markdown(f'Jumlah produksi terbesar tahun {input_tahun} = **{jumlah_terbesar}**')
-                st.markdown(f'**Produksi Keseluruhan Tahun**')
+                cetak_data(
+                    nama_negara,
+                    kode_negara,
+                    region,
+                    sub_region,
+                    input_tahun,
+                    jumlah_terbesar
+                )
                 st.write(negara_tahun)
 
-                
+                # ----
                 st.subheader(f"Produksi Terkecil Pada Tahun {input_tahun}")
                 json_kode = info_json[info_json['alpha-3']== get_kode_kecil]
                 if(json_kode.size>0):
@@ -194,15 +206,17 @@ def app():
                 negara_tahun = minyak_data[minyak_data['kode_negara']==kode_negara]
                 negara_tahun.index = np.arange(1, len(negara_tahun)+1)
 
-                st.markdown(f'Nama Negara = {nama_negara}')
-                st.markdown(f'kode Negara = {kode_negara}')
-                st.markdown(f'Region = {region}')
-                st.markdown(f'Subregion = {sub_region}')
-                st.markdown(f'Jumlah produksi terbesar tahun {input_tahun} = **{jumlah_terkecil}**')
-                st.markdown(f'**Produksi Keseluruhan Tahun**')
+                cetak_data(
+                    nama_negara,
+                    kode_negara,
+                    region,
+                    sub_region,
+                    input_tahun,
+                    jumlah_terkecil
+                )
                 st.write(negara_tahun)
 
-
+                # ---
                 st.subheader(f"Produksi Nol Pada Tahun {input_tahun}")
                 json_kode = info_json[info_json['alpha-3']==get_kode_nol]
                 if(json_kode.size>0):
@@ -219,12 +233,14 @@ def app():
                 negara_tahun = minyak_data[minyak_data['kode_negara']==kode_negara]
                 negara_tahun.index = np.arange(1, len(negara_tahun)+1)
 
-                st.markdown(f'Nama Negara = {nama_negara}')
-                st.markdown(f'kode Negara = {kode_negara}')
-                st.markdown(f'Region = {region}')
-                st.markdown(f'Subregion = {sub_region}')
-                st.markdown(f'Jumlah produksi terbesar tahun {input_tahun} = **{jumlah_nol}**')
-                st.markdown(f'**Produksi Keseluruhan Tahun**')
+                cetak_data(
+                    nama_negara,
+                    kode_negara,
+                    region,
+                    sub_region,
+                    input_tahun,
+                    jumlah_nol
+                )
                 st.write(negara_tahun)
             
         
