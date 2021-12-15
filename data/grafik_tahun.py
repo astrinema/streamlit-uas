@@ -3,9 +3,8 @@ import pandas as pd
 
 
 def app():
-    st.header("Data Minyak Bumi Negara Dunia")
-
-    input_feature = st.text_input('Pilih Negara ?', '')
+    st.header("Data Minyak Mentah Negara Dunia")
+    input_feature = st.text_input('Pilih Negara', '')
     minyak_data = pd.read_csv('produksi_minyak_mentah.csv')
     info_json = pd.read_json('kode_negara_lengkap.json')
 
@@ -20,7 +19,7 @@ def app():
             chart_data = pd.DataFrame(negara_data.produksi).set_index(negara_data.tahun)
             st.bar_chart(chart_data)
         else:
-            st.error('Data Not Found!')
+            st.error('Data Tidak Ada!')
   
 
     

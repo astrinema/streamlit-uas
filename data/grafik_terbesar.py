@@ -5,7 +5,7 @@ import pandas as pd
 
 
 def app():
-    st.header("Data Minyak Bumi Terbesar Berdasarkan Tahun")
+    st.header("Data Minyak Mentah Terbesar Berdasarkan Tahun")
 
     input_tahun = st.number_input('Tahun Negara', min_value=0)
     input_besar = st.number_input('Berapa Banyak Negara', min_value=0)

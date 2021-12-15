@@ -5,7 +5,7 @@ import pandas as pd
 
 
 def app():
-    st.header("Data Jumlah Kumulatif Mintak Bumi Terbesar")
+    st.header("Data Jumlah Kumulatif Minyak Mentah Terbesar")
 
     input_besar = st.number_input('Berapa Banyak Negara', min_value=0)
 
