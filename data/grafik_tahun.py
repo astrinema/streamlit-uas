@@ -14,10 +14,13 @@ def app():
         if(json_negara.size>0):
             json_kode = json_negara['alpha-3'].values[0]
             negara_data = minyak_data[minyak_data['kode_negara'] == json_kode]
-            
-            st.subheader(f'Grafik Jumlah Produksi Minyak Mentah Negara {input_feature}')
-            chart_data = pd.DataFrame(negara_data.produksi).set_index(negara_data.tahun)
-            st.bar_chart(chart_data)
+
+            if not (negara_data.empty):
+                st.subheader(f'Grafik Jumlah Produksi Minyak Mentah Negara {input_feature}')
+                chart_data = pd.DataFrame(negara_data.produksi).set_index(negara_data.tahun)
+                st.bar_chart(chart_data)
+            else:
+                st.error('Data negara tidak ada pada csv')
         else:
             st.error('Data Tidak Ada!')
   
